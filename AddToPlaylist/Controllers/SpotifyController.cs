@@ -36,7 +36,7 @@ namespace ReactDemo.Controllers
             String response;
             var query = "?grant_type=authorization_code" +
             "&code=" + Request.QueryString.Value.Split('=')[1] +
-            "&redirect_uri=https://localhost:44313/spotify";
+            "&redirect_uri=https://localhost:44324/spotify";
 
 
             StringContent stringContent = new StringContent("", UnicodeEncoding.UTF8, "application/x-www-form-urlencoded");

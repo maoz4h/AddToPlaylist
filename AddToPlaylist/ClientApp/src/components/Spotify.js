@@ -145,7 +145,7 @@ export class Spotify extends Component {
                 url += '&client_id=' + encodeURIComponent(me.state.clientId);
                 url += '&scope=' + encodeURIComponent("user-read-private user-modify-private playlist-modify-private");
                 //url += '&show_dialog=true';
-                url += '&redirect_uri=' + "https://localhost:44313/spotify";
+                url += '&redirect_uri=' + "https://localhost:44324/spotify";
                 window.location = url;
             } else {
                 console.warn('error');
@@ -214,7 +214,7 @@ export class Spotify extends Component {
 
     handleAddToPlaylist(e) {
         if (!this.state.playlistName) this.state.playlistName = e.target.elements.playlistName.value.trim();
-        if (!this.state.playlistName) this.state.delimiter = e.target.elements.delimiter.value.trim();
+        if (!this.state.delimiter) this.state.delimiter = e.target.elements.delimiter.value.trim();
 
         if (this.isPlaylistExist(this.state.playlistName)) {
 
