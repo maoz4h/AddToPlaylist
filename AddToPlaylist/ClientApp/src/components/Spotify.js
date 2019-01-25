@@ -5,44 +5,37 @@ export class Spotify extends Component {
 
     constructor(props) {
         super(props);
-        var authorizationCode = this.getStorage('authorizationCode');
-        if (this.state) {
-            if (!this.state.authorizationCode) {
-                if (!authorizationCode) {
-                    authorizationCode = this.getQuery("code");
-                }
-                this.setState(() => ({
-                    authorizationCode: authorizationCode,
-                }));
-                this.setStorage('authorizationCode', this.state.authorizationCode);
-            }
-        }
-        else {
-            this.state = {
-                loggedIn: false,
-                header: 'Logged Out'
-            }
+        let authorizationCode = this.getAuthorizationCode();
 
-            authorizationCode = (authorizationCode !== "" ? authorizationCode : undefined) || this.getQuery("code");
-            if (authorizationCode && authorizationCode !== "") {
-                this.state.authorizationCode = authorizationCode;
-                this.setStorage('authorizationCode', '');
-                this.state.loggedIn = true;
-            }
-
-            if (this.state.authorizationCode && !this.state.clientId) {
-                this.state.clientId = this.getStorage('clientId');
-                this.setStorage('clientId', '');
-                if (this.state.clientId) this.state.header = 'Loading';
-            }
+        this.state = {
+            authorized: authorizationCode && authorizationCode !== "",
+            loggedIn: false,
+            header: 'Logged Out'
         }
 
-        if (this.state.loggedIn && !this.state.token) {
+        if (this.state.authorized) {
+            this.state.authorizationCode = authorizationCode;
+            this.setStorage('authorizationCode', '');
+            this.state.header = 'Loading';
+            //this.state.loggedIn = true;
+        }
+
+        if (this.state.authorized && !this.state.clientId) {
+            this.state.clientId = this.getStorage('clientId');
+            this.setStorage('clientId', '');
+        }
+
+        if (this.state.authorized && !this.state.token) {
             this.getAccessToken();
         }
-        else if (this.state.loggedIn && this.state.token) {
+        else if (this.state.authorized && this.state.token) {
 
         }
+    }
+
+    getAuthorizationCode() {
+        let authorizationCode = this.getStorage('authorizationCode');
+        return (authorizationCode !== "" ? authorizationCode : undefined) || this.getQuery("code");
     }
 
     getStorage(property) {
@@ -68,7 +61,9 @@ export class Spotify extends Component {
                 me.setState(() => ({
                     userId: userId
                 }));
-            } else {
+                me.getUserPlaylists();
+            }
+            else {
                 console.warn('error');
             }
         };
@@ -101,15 +96,15 @@ export class Spotify extends Component {
                     if (request.status === 200) {
                         let playlistsArr = JSON.parse(request.response);
                         me.setState(() => ({
-                            userPlaylists: playlistsArr
+                            userPlaylists: playlistsArr.items.map((i) => ({ name: i.name, id: i.id }))
                         }));
-                        //playlistsArr.items.findIndex((i) => i.name === this.state.playlistName) > 0
+                        this.state.loggedIn = true;
                     } else {
                         console.warn('error');
                     }
                 };
 
-                request.open('GET', 'https://api.spotify.com/v1/users/' + me.state.userId + '/playlists');
+                request.open('GET', 'https://api.spotify.com/v1/me/playlists?limit=50');
                 request.setRequestHeader('Authorization', "Bearer " + me.state.token);
                 request.send();
             } else {
@@ -135,11 +130,9 @@ export class Spotify extends Component {
                 let response = JSON.parse(request.response);
                 response = JSON.parse(response);
                 me.setState(() => ({
-                    clientId: response.client_id,
-                    //clientSecret: response.client_secret
+                    clientId: response.client_id
                 }));
                 me.setStorage('clientId', me.state.clientId);
-                //me.setStorage('clientSecret', me.state.clientSecret);
                 let url = 'https://accounts.spotify.com/authorize';
                 url += '?response_type=code';
                 url += '&client_id=' + encodeURIComponent(me.state.clientId);
@@ -182,7 +175,6 @@ export class Spotify extends Component {
                     refreshToken: response.refresh_token,
                 }));
                 me.getCurrentUserId();
-                me.getUserPlaylists();
             } else {
                 console.warn('error');
             }
@@ -207,34 +199,101 @@ export class Spotify extends Component {
     }
 
 
-    isPlaylistExist(playlistName) {
-        this.getUserPlaylists();
-        debugger;
+    isPlaylistExist() {
+        return this.state.userPlaylists.findIndex((playlist) => playlist.name === this.state.playlistName) > 0;
     }
 
     handleAddToPlaylist(e) {
         if (!this.state.playlistName) this.state.playlistName = e.target.elements.playlistName.value.trim();
         if (!this.state.delimiter) this.state.delimiter = e.target.elements.delimiter.value.trim();
-
-        if (this.isPlaylistExist(this.state.playlistName)) {
-
-        }
-        else {
-            this.createPlaylist(this.state.playlistName);
-        }
+        
         if (this.state.content) {
             const content = this.state.content;
             this.setState(() => ({
                 content: undefined
             }));
             const titleArtistsPairs = this.getPairsFromContent(content, this.state.delimiter);
-
+            if (this.isPlaylistExist(this.state.playlistName)) {
+                this.addSongsToPlaylist(titleArtistsPairs);
+            }
+            else {
+                this.createPlaylistAndAddSongsToIt(titleArtistsPairs);
+            }
         }
         else {
             e.preventDefault();
             const file = e.target.elements.fileinput.files[0];
             this.readSingleFile(file);
         }
+    }
+
+    addSongsToPlaylist(titleArtistsPairs) {
+        var titleArtistSpotifyId = [];
+        let me = this;
+        me.setState(() => ({
+            header: "Loading",
+            titleArtistId: []
+        }));
+
+        let i = 0;
+        let pair = titleArtistsPairs[i];
+
+
+        var that = me;
+        var request = new XMLHttpRequest();
+
+        request.onreadystatechange = (e) => {
+            var me = that;
+            if (request.readyState !== 4) {
+                return;
+            }
+
+            if (request.status === 200 && JSON.parse(request.response).tracks.total > 0) {
+                let track = JSON.parse(request.response).tracks.items[0];
+                let title = track.name;
+                let artist = track.artists[0].name;
+                let spotifyId = track.id;
+                me.state.titleArtistId.push({ title: title, artist: artist, spotifyId: spotifyId });
+                if (i === titleArtistsPairs.length - 1) {
+                        
+                }
+            } else {
+                console.warn('error');
+            }
+        };
+
+        let query = 'q=name:' + pair[0].replace(' ', '+') + '+artist:' + pair[1].replace(' ', '+') + '&type=track&limit=1';
+
+        request.open('GET', 'https://api.spotify.com/v1/search?' + query);
+        request.setRequestHeader('Authorization', "Bearer " + that.state.token);
+
+        request.send();
+    }
+
+    createPlaylistAndAddSongsToIt(titleArtistsPairs) {
+        let me = this;
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = (e) => {
+            if (request.readyState !== 4) {
+                return;
+            }
+
+            if (request.status === 200 || request.status === 201) {
+                me.addSongsToPlaylist(titleArtistsPairs);
+            } else {
+                console.warn('error');
+            }
+        };
+
+        request.open('POST', 'https://api.spotify.com/v1/users/' + this.state.userId + '/playlists');
+        request.setRequestHeader('Authorization', "Bearer " + me.state.token);
+        request.setRequestHeader('Content-Type', 'application/json');
+        var data = JSON.stringify({
+            "name": this.state.playlistName,
+            'public': false,
+            'collaborative': false
+        });
+        request.send(data);
     }
 
     getPairsFromContent(content, delimiter) {
@@ -250,7 +309,7 @@ export class Spotify extends Component {
         return (
             <div>
                 <p id="header">{this.state.header}</p>
-                {!this.state.loggedIn &&
+                {!this.state.authorized &&
                     <form onSubmit={this.handleLogin.bind(this)}>
                         <button>Login</button>
                     </form>
@@ -260,8 +319,8 @@ export class Spotify extends Component {
                         Playlist name<input type="text" name="playlistName" />
                         <br />
                         Delimiter<input type="text" name="delimiter" />
-                        <input type="file" id="fileinput" name="fileinput" />
-                        <button>Add Songs to Playlist</button>
+                    <input type="file" id="fileinput" name="fileinput" />
+                    <button disabled={this.state.loggedIn}>Add Songs to Playlist</button>
                     </form>
                 }
             </div>
