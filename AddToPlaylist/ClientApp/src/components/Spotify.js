@@ -227,47 +227,59 @@ export class Spotify extends Component {
         }
     }
 
-    addSongsToPlaylist(titleArtistsPairs) {
-        var titleArtistSpotifyId = [];
-        let me = this;
-        me.setState(() => ({
-            header: "Loading",
-            titleArtistId: []
-        }));
-
-        let i = 0;
-        let pair = titleArtistsPairs[i];
-
-
-        var that = me;
+    getTitleArtistSpotifyId(titleArtistsPairs, index, titleArtistSpotifyIds, failedPairs) {
+        if (index === titleArtistsPairs.length) {
+            return;
+        }
+        let pair = titleArtistsPairs[index];
+        var me = this;
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = (e) => {
-            var me = that;
+            var that = me;
+            var pair2 = pair;
+            var i = index;
+            var res = titleArtistSpotifyIds;
+            var failed = failedPairs;
+            var arr = titleArtistsPairs;
             if (request.readyState !== 4) {
                 return;
             }
-
+            
             if (request.status === 200 && JSON.parse(request.response).tracks.total > 0) {
                 let track = JSON.parse(request.response).tracks.items[0];
                 let title = track.name;
                 let artist = track.artists[0].name;
                 let spotifyId = track.id;
-                me.state.titleArtistId.push({ title: title, artist: artist, spotifyId: spotifyId });
-                if (i === titleArtistsPairs.length - 1) {
-                        
-                }
+                //me.state.titleArtistId.push({ title: title, artist: artist, spotifyId: spotifyId });
+                res.push({ title: title, artist: artist, spotifyId: spotifyId });
+                
             } else {
-                console.warn('error');
+                failed.push(pair2);
             }
+            this.setState(() => ({
+                header: 'Scanning: ' + (i + 1) + ' out of: ' + arr.length,
+                succeedHeader: 'Found: ' + res.length,
+                failedHeader: 'Failed: ' + failed.length
+            }));
+            that.getTitleArtistSpotifyId(arr, i + 1, res, failed);
         };
-
-        let query = 'q=name:' + pair[0].replace(' ', '+') + '+artist:' + pair[1].replace(' ', '+') + '&type=track&limit=1';
+        
+        let query = 'q=track:' + pair[0].replace(' ', '+AND+') + '+artist:' + pair[1].replace(' ', '+AND+') + '&type=track&limit=1';
 
         request.open('GET', 'https://api.spotify.com/v1/search?' + query);
-        request.setRequestHeader('Authorization', "Bearer " + that.state.token);
-
+        request.setRequestHeader('Authorization', "Bearer " + me.state.token);
         request.send();
+    }
+
+    addSongsToPlaylist(titleArtistsPairs) {
+        var titleArtistSpotifyIds = [];
+        var failedPairs = [];
+        this.setState(() => ({
+            header: "Loading"
+        }));
+
+        this.getTitleArtistSpotifyId(titleArtistsPairs, 0, titleArtistSpotifyIds, failedPairs);
     }
 
     createPlaylistAndAddSongsToIt(titleArtistsPairs) {
@@ -279,6 +291,7 @@ export class Spotify extends Component {
             }
 
             if (request.status === 200 || request.status === 201) {
+                //todo, save playlist id
                 me.addSongsToPlaylist(titleArtistsPairs);
             } else {
                 console.warn('error');
@@ -309,6 +322,8 @@ export class Spotify extends Component {
         return (
             <div>
                 <p id="header">{this.state.header}</p>
+                <p id="succeed">{this.state.succeedHeader}</p>
+                <p id="failed">{this.state.failedHeader}</p>
                 {!this.state.authorized &&
                     <form onSubmit={this.handleLogin.bind(this)}>
                         <button>Login</button>
