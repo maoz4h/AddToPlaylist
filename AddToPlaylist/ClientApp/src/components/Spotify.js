@@ -200,7 +200,14 @@ export class Spotify extends Component {
 
 
     isPlaylistExist() {
-        return this.state.userPlaylists.findIndex((playlist) => playlist.name === this.state.playlistName) > 0;
+        if (this.state.userPlaylists.findIndex((playlist) => playlist.name === this.state.playlistName) > 0)
+        {
+            var playlist = this.state.userPlaylists.find((playlist) => playlist.name === this.state.playlistName);
+            debugger;
+            this.setState(() => ({
+                playlistId: playlist.id
+            }));
+        }
     }
 
     handleAddToPlaylist(e) {
@@ -228,11 +235,36 @@ export class Spotify extends Component {
     }
 
     getTitleArtistSpotifyId(titleArtistsPairs, index, titleArtistSpotifyIds, failedPairs) {
+        var me = this;
+
         if (index === titleArtistsPairs.length) {
+            var request = new XMLHttpRequest();
+
+            request.onreadystatechange = (e) => {
+                if (request.readyState !== 4) {
+                    return;
+                }
+
+                if (request.status === 200 || request.status === 201) {
+                    alert('Success!');
+                    if (failedPairs.length > 0) {
+                        alert('Failed to add: ' + failedPairs.map((p) => p[0] + ' ' + p[1]));
+                    }
+                }
+                else {
+                }
+            };
+
+            request.open('POST', 'https://api.spotify.com/v1/playlists/' + me.state.playlistId + '/tracks');
+            request.setRequestHeader('Authorization', "Bearer " + me.state.token);
+            request.setRequestHeader('Content-Type', 'application/json');
+            var data = JSON.stringify({
+                "uris": titleArtistSpotifyIds.map((tai) => 'spotify:track:' + tai.spotifyId)
+            });
+            request.send(data);
             return;
         }
         let pair = titleArtistsPairs[index];
-        var me = this;
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = (e) => {
@@ -291,7 +323,10 @@ export class Spotify extends Component {
             }
 
             if (request.status === 200 || request.status === 201) {
-                //todo, save playlist id
+                var playlistId = JSON.parse(request.response).id;
+                me.setState(() => ({
+                    playlistId: playlistId
+                }));
                 me.addSongsToPlaylist(titleArtistsPairs);
             } else {
                 console.warn('error');
