@@ -238,30 +238,7 @@ export class Spotify extends Component {
         var me = this;
 
         if (index === titleArtistsPairs.length) {
-            var request = new XMLHttpRequest();
-
-            request.onreadystatechange = (e) => {
-                if (request.readyState !== 4) {
-                    return;
-                }
-
-                if (request.status === 200 || request.status === 201) {
-                    alert('Success!');
-                    if (failedPairs.length > 0) {
-                        alert('Failed to add: ' + failedPairs.map((p) => p[0] + ' ' + p[1]));
-                    }
-                }
-                else {
-                }
-            };
-
-            request.open('POST', 'https://api.spotify.com/v1/playlists/' + me.state.playlistId + '/tracks');
-            request.setRequestHeader('Authorization', "Bearer " + me.state.token);
-            request.setRequestHeader('Content-Type', 'application/json');
-            var data = JSON.stringify({
-                "uris": titleArtistSpotifyIds.map((tai) => 'spotify:track:' + tai.spotifyId)
-            });
-            request.send(data);
+            me.addBulkOfSongsToPlaylist(titleArtistSpotifyIds, failedPairs, 100, 0);
             return;
         }
         let pair = titleArtistsPairs[index];
@@ -296,12 +273,50 @@ export class Spotify extends Component {
             }));
             that.getTitleArtistSpotifyId(arr, i + 1, res, failed);
         };
-        
         let query = 'q=track:' + pair[0].replace(' ', '+AND+') + '+artist:' + pair[1].replace(' ', '+AND+') + '&type=track&limit=1';
 
         request.open('GET', 'https://api.spotify.com/v1/search?' + query);
         request.setRequestHeader('Authorization', "Bearer " + me.state.token);
         request.send();
+    }
+
+    addBulkOfSongsToPlaylist(titleArtistSpotifyIds, failedPairs, bulkSize, index) {
+        if (index >= titleArtistSpotifyIds.length) {
+            return;
+        }
+        var request = new XMLHttpRequest();
+
+        request.onreadystatechange = (e) => {
+            if (request.readyState !== 4) {
+                return;
+            }
+
+            if (request.status === 200 || request.status === 201) {
+                alert('Success!');
+                if (failedPairs.length > 0) {
+                    alert('Failed to add: ' + failedPairs.map((p) => p[0] + ' ' + p[1]));
+                }
+            }
+            this.addBulkOfSongsToPlaylist(titleArtistSpotifyIds, failedPairs, bulkSize, index + bulkSize);
+        };
+
+        request.open('POST', 'https://api.spotify.com/v1/playlists/' + this.state.playlistId + '/tracks');
+        request.setRequestHeader('Authorization', "Bearer " + this.state.token);
+        request.setRequestHeader('Content-Type', 'application/json');
+        var bulk;
+        if (titleArtistSpotifyIds.length > bulkSize) {
+            var endIndex = index + bulkSize > titleArtistSpotifyIds.length ?
+                titleArtistSpotifyIds.length - 1 :
+                index + (bulkSize - 1);
+            bulk = titleArtistSpotifyIds.slice(index, endIndex);
+        }
+        else {
+            bulk = titleArtistSpotifyIds;
+        }
+        var data = JSON.stringify({
+            "uris": bulk.map((tai) => 'spotify:track:' + tai.spotifyId)
+        });
+        request.send(data);
     }
 
     addSongsToPlaylist(titleArtistsPairs) {
