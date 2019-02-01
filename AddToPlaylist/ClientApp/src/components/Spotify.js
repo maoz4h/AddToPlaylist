@@ -290,9 +290,10 @@ export class Spotify extends Component {
             }
 
             if (request.status === 200 || request.status === 201) {
-                alert('Success!');
+                alert('Finished!');
                 if (failedPairs.length > 0) {
-                    alert('Failed to add: ' + failedPairs.map((p) => p[0] + ' ' + p[1]));
+                    document.getElementById('failedToAdd').innerText = failedPairs.map((p) => p[0] + ' - ' + p[1] + '\n').join('');
+                    document.getElementById('failArea').hidden = false;
                 }
             }
             this.addBulkOfSongsToPlaylist(titleArtistSpotifyIds, failedPairs, bulkSize, index + bulkSize);
@@ -379,11 +380,17 @@ export class Spotify extends Component {
                 }
                 {this.state.token &&
                     <form onSubmit={this.handleAddToPlaylist.bind(this)}>
-                        Playlist name<input type="text" name="playlistName" />
+                        Playlist name: <input type="text" name="playlistName" />
                         <br />
-                        Delimiter<input type="text" name="delimiter" />
+                        Delimiter: <input type="text" name="delimiter" />
                     <input type="file" id="fileinput" name="fileinput" />
                     <button disabled={this.state.loggedIn}>Add Songs to Playlist</button>
+                    <br />
+                    <div id="failArea" hidden="true">
+                        <h1>Failed to add:</h1>
+                        <br />
+                        <div contenteditable id="failedToAdd" name="failedToAdd" />
+                    </div>
                     </form>
                 }
             </div>
