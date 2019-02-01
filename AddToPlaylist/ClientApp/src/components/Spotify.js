@@ -245,9 +245,6 @@ export class Spotify extends Component {
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = (e) => {
-            var that = me;
-            var pair2 = pair;
-            var i = index;
             var res = titleArtistSpotifyIds;
             var failed = failedPairs;
             var arr = titleArtistsPairs;
@@ -260,19 +257,20 @@ export class Spotify extends Component {
                 let title = track.name;
                 let artist = track.artists[0].name;
                 let spotifyId = track.id;
-                //me.state.titleArtistId.push({ title: title, artist: artist, spotifyId: spotifyId });
                 res.push({ title: title, artist: artist, spotifyId: spotifyId });
                 
             } else {
-                failed.push(pair2);
+                failed.push(pair);
             }
             this.setState(() => ({
-                header: 'Scanning: ' + (i + 1) + ' out of: ' + arr.length,
+                header: 'Scanning: ' + (index + 1) + ' out of: ' + arr.length,
                 succeedHeader: 'Found: ' + res.length,
                 failedHeader: 'Failed: ' + failed.length
             }));
-            that.getTitleArtistSpotifyId(arr, i + 1, res, failed);
+            me.getTitleArtistSpotifyId(arr, index + 1, res, failed);
         };
+        pair[0] = pair[0].replace('&', ',');
+        pair[1] = pair[1].replace('&', ',');
         let query = 'q=track:' + pair[0].replace(' ', '+AND+') + '+artist:' + pair[1].replace(' ', '+AND+') + '&type=track&limit=1';
 
         request.open('GET', 'https://api.spotify.com/v1/search?' + query);

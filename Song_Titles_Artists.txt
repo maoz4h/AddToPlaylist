@@ -17,7 +17,7 @@ Scenes From An Italian Restaurant_Billy Joel
 Sealed With A Kiss_Bobby Vinton
 Send Home The Slates_Camel
 Seven Nation Army_The White Stripes
-Sgt. Pepper's Lonely Hearts Club Band_Paul McCartney &#38; U2
+Sgt. Pepper's Lonely Hearts Club Band_Paul McCartney & U2
 She Loves You_The Beatles
 She's Always A Woman_Billy Joel
 She's Not There_Santana
@@ -39,7 +39,7 @@ Smells Like Teen Spirit_Nirvana
 Smile_Pearl Jam
 Smoke On The Water_Deep Purple
 Smooth Criminal_Michael Jackson
-Smooth_Santana &#38; Rob Thomas
+Smooth_Santana & Rob Thomas
 So Far Away_Dire Straits
 Society_Eddie Vedder
 Some Might Say_Oasis
@@ -51,7 +51,7 @@ Sound And Vision_David Bowie
 South Side_Moby
 Space And Time_The Verve
 Space Oddity_David Bowie
-Spinning Wheel_Blood, Sweat &#38; Tears
+Spinning Wheel_Blood, Sweat & Tears
 Spirit In The Sky_Norman Greenbaum
 Spread A Little Happiness_Sting
 Stairway To Heaven_Led Zeppelin
@@ -72,7 +72,7 @@ Streets Of Philadelphia_Bruce Springsteen
 Stuck In A Moment_U2
 Suddenly You Love Me_The Tremeloes
 Summer In The City_The Lovin' Spoonful
-Summer Wine_The Corrs &#38; Bono
+Summer Wine_The Corrs & Bono
 Summertime_Janis Joplin
 Sunday Bloody Sunday_U2
 Sunday_Moby
@@ -118,7 +118,7 @@ The Millionaire Waltz_Queen
 The Night Sky_Mostly Autumn
 The Ocean_Led Zeppelin
 The One I Love_R.E.M
-The Perfect Life_Moby &#38; Wayne Coyne
+The Perfect Life_Moby & Wayne Coyne
 The Real Story_Various Artists
 The Rover_Led Zeppelin
 The Scientist_Coldplay
@@ -128,7 +128,7 @@ The Spirit Carries On_Dream Theater
 The Unforgiven_Metallica
 The Way You Look Tonight_Frank Sinatra
 The Wizard_Uriah Heep
-Them Changes_Jimi Hendrix &#38; Buddy Miles
+Them Changes_Jimi Hendrix & Buddy Miles
 There's A Kind Of Hush (All Over The World)_Herman's Hermits
 There's No Other Way_Blur
 These R The Thoughts (Unplugged)_Alanis Morissette
@@ -142,15 +142,15 @@ Time_Pink Floyd
 Tomorrow Comes Today_Gorillaz
 Toss The Feathers_The Corrs
 Tribute_Tenacious D
-Trinity_Santana &#38;  Kirk Hammett &#38; Robert Randolph
+Trinity_Santana &  Kirk Hammett & Robert Randolph
 Trouble_Coldplay
 Tuesday's Gone_Lynyrd Skynyrd
 Tunnel Of Love_Dire Straits
 Twist And Shout_The Beatles
 Twisting By The Pool_Dire Straits
 Two Princess_Spin Doctors
-Uh!_Fujiya &#38; Miyagi
-Under Pressure_Queen &#38; David Bowie
+Uh!_Fujiya & Miyagi
+Under Pressure_Queen & David Bowie
 Under The Bridge_Red Hot Chili Peppers
 Under The Moon_Camel
 Uninvited (Unplugged)_Alanis Morissette
@@ -164,7 +164,7 @@ Viva La Vida_Coldplay
 Waitin' On A Sunny Day_Bruce Springsteen
 Waiting For A Train_Flash And The Pan
 Walk This Land_E-Z Rollers
-Walk With Me_Pearl Jam &#38; Neil Young
+Walk With Me_Pearl Jam & Neil Young
 Waterloo Sunset_David Bowie
 We Can Fly_Yes
 We Used To Wait_Arcade Fire
@@ -178,7 +178,7 @@ What It Is_Mark Knopfler
 What R We Stealing_Various Artists
 What's Up_4 Non Blondes
 Whatever_Oasis
-When The Stars Go Blue_The Corrs &#38; Bono
+When The Stars Go Blue_The Corrs & Bono
 When The Sun Goes Down_Arctic Monkeys
 When You Are A King_White Plains
 Where Did You Sleep Last Night (Unplugged)_Nirvana
@@ -226,10 +226,10 @@ Ziggy Stardust_David Bowie
 Zombie_The Cranberries
 (Sittin' On) The Dock Of The Bay_Pearl Jam
 Bring It On Home To Me_The Animals
-Comfortably Numb_Roger Waters &#38; Eddie Vedder
+Comfortably Numb_Roger Waters & Eddie Vedder
 Creep_Radiohead
 Fat Old Sun_David Gilmour
-In A Broken Dream_Rod Stewart &#38; David Gilmour
+In A Broken Dream_Rod Stewart & David Gilmour
 Learning To Fly_Tom Petty
 Little Wing_The Corrs
 Love In Vain_The Rolling Stones
@@ -238,10 +238,10 @@ Movin' Out (Anthony's Song)_Billy Joel
 Piano Man_Billy Joel
 She's Always A Woman_Billy Joel
 Smooth Criminal_J Viewz
-Somebody To Love_Queen &#38; George Michael
+Somebody To Love_Queen & George Michael
 Speed Of Sound_Pearl Jam
 Stand By Me_Oasis
-Summer Wine_Nancy Sinatra &#38; Lee Hazlewood
+Summer Wine_Nancy Sinatra & Lee Hazlewood
 Summertime_Love Sculpture
 The Wizard_Black Sabbath
 Trouble_Eddie Vedder
@@ -313,9 +313,9 @@ You Shook Me_Led Zeppelin
 To Be Treated Rite_Terry Reid
 Guaranteed_Eddie Vedder
 Lazy_Deep Purple
-Some Velvet Morning_Nancy Sinatra &#38; Lee Hazlewood
-Relax-Ay-Voo_Bart &#38; Baker
-Five Hundred Miles_Carey Mulligan &#38; Stark Sands &#38; Justin Timberlake
+Some Velvet Morning_Nancy Sinatra & Lee Hazlewood
+Relax-Ay-Voo_Bart & Baker
+Five Hundred Miles_Carey Mulligan & Stark Sands & Justin Timberlake
 Lalena_Deep Purple
 Defector_Muse
 Don't Forget Me_Red Hot Chili Peppers
@@ -355,10 +355,8 @@ We're Going To Be Friends_The White Stripes
 I Just Don't Know What to Do With Myself_The White Stripes
 Same Old Song And Dance_Aerosmith
 You_Radiohead
-Yellow Brick Road_Angus &#38; Julia Stone
-Thank You (Recorded Live At Esplanade Arts &#38; Heritage Centre, Medicine Hat, Alberta, Canada - April 27, 2011)_Chris Cornell
-Starter (סטארטר)_Ehud Banai
-Sus Etz - סוס עץ (Live - הופעה חיה)_Arik Einstein &#38; Shalom Hanoch
+Yellow Brick Road_Angus & Julia Stone
+Thank You (Recorded Live At Esplanade Arts & Heritage Centre, Medicine Hat, Alberta, Canada - April 27, 2011)_Chris Cornell
 Stand By Me_Florence + The Machine
 Mother (Live)_Pearl Jam
 Ride With Me_OUZO BAZOOKA
@@ -368,19 +366,16 @@ Apple of My Eye (2010 Remaster)_Badfinger
 Just Like Fire (From "Alice Through the Looking Glass")_P!nk
 We Don’t Talk Anymore (feat. Selena Gomez)_Charlie Puth
 Tie Your Mother Down_Queen
-Feels (feat. Pharrell Williams, Katy Perry &#38; Big Sean)_Calvin Harris
-Migdalim_Assaf Amdursky
-These Days (feat. Jess Glynne, Macklemore &#38; Dan Caplen)_Rudimental
-Sa_Hadag Nahash
-Ulay Nedaber_Nadav Guedj
+Feels (feat. Pharrell Williams, Katy Perry & Big Sean)_Calvin Harris
+These Days (feat. Jess Glynne, Macklemore & Dan Caplen)_Rudimental
 Paradise_George Ezra
 I Feel It Coming (feat. Daft Punk)_The Weeknd
 Can't Feel My Face_The Weeknd
 24K Magic_Bruno Mars
 That’s What I Like_Bruno Mars
 Uptown Funk (feat. Bruno Mars)_Mark Ronson
-Get Lucky (feat. Pharrell Williams &#38; Nile Rodgers)_Daft Punk
-Princess of China_Coldplay &#38; Rihanna
+Get Lucky (feat. Pharrell Williams & Nile Rodgers)_Daft Punk
+Princess of China_Coldplay & Rihanna
 Hymn for the Weekend_Coldplay
 Strawberry Fields Forever_Tatran
 Yareach_Berry Sakharof
